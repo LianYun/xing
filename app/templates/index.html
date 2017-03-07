@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Main Page - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+  <!-- Example row of columns 
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Descriptions</h2>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>How To Use</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>Others</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+  </div>
+  -->
+<ng-view class="ng-scope">
+<div class="section-a ng-scope">
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2>View conferences</h2>
+
+            <p class="lead">View by city, topics, date, max attendees.</p>
+            <a href="{{ url_for('main.show_conference') }}" class="btn btn-default btn-lg">View conferences</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business1.jpg") }}" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="section-a ng-scope">
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Create new conferences</h2>
+
+            <p class="lead">In 10 seconds or less.</p>
+            <a href="{{ url_for('main.create_conference') }}" class="btn btn-default btn-lg">Create a conference</a>
+        </div>
+        <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business2.jpg") }}" alt="">
+        </div>
+    </div>
+</div>
+
+{% if current_user.is_authenticated %}
+<div class="section-a ng-scope">
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Update your profile</h2>
+            <a href="{{ url_for('main.profile', id=current_user.id) }}" class="btn btn-default btn-lg">View my profile</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business3.jpg") }}" alt="">
+        </div>
+    </div>
+</div>
+{% endif %}
+</ng-view>
+
+<br />
+</div>
+ 
+{% endblock %}
+

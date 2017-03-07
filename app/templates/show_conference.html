@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% import "_macros.html" as macro %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for("static", filename="css/show_conf.css") }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Show Conference - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <div>
+        {{ macro.pagination_widget(pagination, "main.show_conference") }}
+    </div>
+	{% include "_conferences_list.html" %}
+    <div>
+        {{ macro.pagination_widget(pagination, "main.show_conference") }}
+    </div>
+</div>
+
+{% endblock %}

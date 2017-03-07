@@ -1,0 +1,21 @@
+
+
+.top-left {
+	float: left;
+	width: 73%
+}
+
+.top-right {
+	background: orangered;
+	float: right;
+	width: 25%
+}
+
+#edit-profile {
+	position: relative;
+}
+
+#ep-btn {
+	position: absolute;
+	right: 0;
+}

@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login Page - Xing{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for("static", filename="css/signin.css") }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <div class="form-signin">
+        <h2 class="form-signin-heading">Please Login</h2>
+        {% import "bootstrap/wtf.html" as wtf %}
+        {{ wtf.quick_form(form) }}
+    </div>
+    <hr />
+    <div class="signin-footer">
+        <p  class="signin-reg">New user? 
+            <a href="{{ url_for('auth.register') }}" class="btn btn-default">
+                Click here to register
+            </a>
+        .</p>
+    </div>
+    
+    <br />
+    <hr />
+</div>
+
+{% endblock %}

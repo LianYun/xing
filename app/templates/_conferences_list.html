@@ -1,0 +1,30 @@
+
+{% import "_macros.html" as macro %}
+    
+
+	<div class="content">
+		<div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>City</th>
+						<th>Start Date</th>
+						<th>Organizer</th>
+						<th>Registered/Open</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for conference in conferences %}
+					<tr>
+						<td><a href="{{ url_for('main.conference', id=conference.id) }}">{{conference.title}}</a></td>
+						<td>{{ conference.city.name }}</td>
+						<td>{{ moment(conference.start_time).format("LLL") }}</td>
+						<td>{{ conference.organizer.nickname }}</td>
+						<td>{{ conference.attendees.count() }}/{{ conference.max_attendees }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>

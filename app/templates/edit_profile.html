@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+
+{% block title %}Edit Profile - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    {% import "bootstrap/wtf.html" as wtf %}
+    {{ wtf.quick_form(form) }}
+    
+    <div class="edit-profile-cancel">
+        <a href="{{ url_for('main.profile', id=user.id) }}" class="btn btn-primary">Cancel</a>
+    </div>
+</div>
+{% endblock %}

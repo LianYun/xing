@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Register Page - Xing{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for("static", filename="css/signin.css") }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <div class="form-signin">
+        <h2 class="form-signin-heading">Register</h2>
+        <hr />
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="{{ url_for("static", filename="css/comments.css") }}" type="text/css" />
+{% endblock %}
+
+{% block title %}Conference Detail - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+	<div class="jumbotron">
+		
+		
+		<div class="cd cd-title">
+			<h2>{{ conference.title }}</h2>
+			<p>
+				<a href="{{ url_for('main.conference', id=conference.id)}}#comments">
+					<span class="label label-primary">
+						{{ conference.comments.count() }} Comments
+					</span>
+				</a>
+			</p>
+		</div>
+		<hr />
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <span> Organizer by: </span>
+                </div>
+                <div class="col-md-9">
+                    <span>
+					<a class="label label-default" href="{{ url_for('main.profile', id=conference.organizer.id) }}">
+						<em>{{ conference.organizer.nickname }}</em>
+					</a>
+				</span>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <span>Topics:</span>
+                </div>
+                <div class="col-md-9">
+                    <span>
+                        {% for topic in conference.topics %}
+				        <a class="label label-info" href="#"> {{ topic.name }} </a>
+				        {% endfor %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <span>City: </span>
+                </div>
+                <div class="col-md-9">
+                    <span>
+                        <a class="label label-default"  href="{{ url_for('main.city_conferences', id=conference.city.id) }}">
+					       {{ conference.city.name }}
+				        </a>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <span>Start time: </span>
+					   <em class="label label-warning">{{ moment(conference.start_time).format("LLL") }}</em>
+				    </span>
+                </div>
+                <div class="col-md-6">
+                    <span>End time: </span>
+					<em class="label label-warning">{{ moment(conference.end_time).format("LLL") }}</em>
+				</span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <span>Max attendees: </span>
+					   <em class="label label-warning">{{ conference.max_attendees }}</em>
+				    </span>
+                </div>
+                <div class="col-md-6">
+                    <span>Already attendees: </span>
+					   <em class="label label-warning">{{ conference.attendees.count() }}</em>
+				    </span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-7">
+                    
+                </div>
+                
+                <div class="col-md-2">
+				    <span>Publish Time: </span>
+				    
+                </div>
+                <div class="col-md-3">
+                    <span class="label label-default">{{ moment(conference.time_stamp).fromNow() }}</span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-7">
+                    
+                </div>
+                
+                <div class="col-md-2">
+				    <span>Attend this conference: </span>
+				    
+                </div>
+                <div class="col-md-3">
+                    <span class="label label-default">{{ moment(conference.time_stamp).fromNow() }}</span>
+                </div>
+            </div>
+            
+        </div>
+		
+	</div>
+	<hr />
+	<div>
+		
+		<div>
+			<h3 class="label label-primary">Description:</h3>
+			<p class="cd cd-des">
+				{% if conference.description_html %}
+				{{ conference.description_html | safe }}
+				{% else %}
+				{{ conference.description }}
+				{% endif %}
+			</p>
+		</div>
+	</div>
+	<hr />
+	{% include "_comments.html" %}
+</div>
+{% endblock %}

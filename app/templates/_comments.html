@@ -1,0 +1,56 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macro %}
+<div>
+	
+	{% if current_user.is_authenticated %}
+	<div>
+	{{ wtf.quick_form(form) }}
+	</div>
+	{% else %}
+	<div>
+		<p>Please login to comment!</p>
+	</div>
+	{% endif %}
+	
+	<h3  id="comments">Comments:</h3>
+	<hr />
+	<ul class="comments">
+	{% for comment in comments %}
+	<li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('main.profile', id=comment.author.id) }}">
+                <img class="img-rounded profile-thumbnail" width="40" height="40" src="{{ comment.author.portrait_addr }}">
+            </a>
+        </div>
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comment.time_stamp).fromNow() }}</div>
+            <div class="comment-author"><a href="{{ url_for('main.profile', id=comment.author.id) }}">{{ comment.author.nickname }}</a></div>
+            <div class="comment-body">
+                {% if comment.disabled %}
+                <p><i>This comment has been disabled by a moderator.</i></p>
+                {% endif %}
+                {% if moderate or not comment.disabled %}
+                    {% if comment.body_html %}
+                        {{ comment.body_html | safe }}
+                    {% else %}
+                        {{ comment.body }}
+                    {% endif %}
+                {% endif %}
+            </div>
+			<!-- 
+            {% if moderate %}
+                <br>
+                {% if comment.disabled %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">Enable</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">Disable</a>
+                {% endif %}
+            {% endif %}
+			-->
+        </div>
+    </li>
+	{% endfor %}
+	</ul>
+
+</div>

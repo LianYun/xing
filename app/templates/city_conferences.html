@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macro %}
+
+{% block page_content %}
+<div class="container">
+	<h2><span class="glyphicon glyphicon-map-marker"  aria-hidden="true">
+		{{city.name}}</span></h2>
+    <div>
+        {{ macro.pagination_widget(pagination, "main.city_conferences", id=city.id) }}
+    </div>
+	{% include "_conferences_list.html" %}
+</div>
+{% endblock %}

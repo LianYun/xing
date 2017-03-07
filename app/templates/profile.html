@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macro %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for("static", filename="css/profile.css") }}" type="text/css" />
+{% endblock %}
+
+{% block title %}User Info - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jumbotron">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ user.portrait }}" class="img-responsive img-circle">
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <span>{{user.nickname}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <a href="mailto:{{user.email}}">{{user.email}}</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-map-marker"  aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <span>{{user.address}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+				
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Join Time:</strong>
+                        </div>
+                        <div class="col-md-5">
+                            <span>{{ moment(user.join_time).format("LLL") }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Last Seen:</strong>
+                        </div>
+                        <div class="col-md-5">
+                            <span>{{ moment(user.last_seen).fromNow(refresh=True) }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+				{% if not user.confirmed %}
+				<p>You have not confirmed, please go 
+                    <a href="mailto:{{user.email}}">{{user.email}}</a> to confirm!</p>
+				{% endif %}
+			</div>
+			<div  class="jumbotron">
+				<h2 class="label label-primary">About Me:</h2>
+				<hr />
+				<div>
+					{% if user.about_me_html %}
+					{{ user.about_me_html | safe }}
+					{% else %}
+					{{ user.about_me }}
+					{% endif %}
+				</div>
+				{% if current_user.id == user.id %}
+				<div id="edit-profile">
+					<a href="{{ url_for('main.edit_profile') }}" class="btn btn-info" id="ep-btn">Edit User Info</a>
+				</div>
+				{% endif %}
+			</div>
+        </div>
+        <div class="col-md-4">
+            <p>
+                {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+                    {% if not current_user.is_following(user) %}
+                    <a href="{{ url_for('main.follow', id=user.id) }}"
+                        class="btn btn-primary">Follow</a>
+                    {% else %}
+                    <a href="{{ url_for('main.unfollow', id=user.id) }}"
+                        class="btn btn-default">Unfollow</a>
+                    {% endif %}
+                {% endif %}
+                <hr />
+                <a href="{{ url_for('main.followers', id=user.id) }}">
+                    Followers: <span class="badge">{{ user.followers.count() }}</span>
+                </a>
+                <a href="{{ url_for('main.followed_by', id=user.id) }}">
+                    Following: <span class="badge">{{ user.followed.count() }}</span>
+                </a>
+                
+                {% if current_user.is_authenticated and user != current_user and
+                    user.is_following(current_user) %}
+                    | <span class="label label-default">Follows you</span>
+                {% endif %}
+            </p>
+            <p>
+                <a href="{{ url_for('main.followers_conferences', id=user.id) }}" class="btn btn-primary">My Followers' conferences</a>
+            </p>
+        </div>
+    </div>
+
+	<div class="row">
+    <div>
+        {{ macro.pagination_widget(pagination, "main.profile", id=user.id) }}
+    </div>
+	{% include "_conferences_list.html" %}
+    </div>
+
+</div>
+{% endblock %}

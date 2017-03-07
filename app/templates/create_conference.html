@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}" type="text/css" />
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}" charset="UTF-8"></script>
+{% endblock %}
+
+{% block title %}Create Conference - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    {% import "bootstrap/wtf.html" as wtf %}
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

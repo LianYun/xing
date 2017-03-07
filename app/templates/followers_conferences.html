@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{% import "_macros.html" as macro %}
+
+{% block title %}Followers Conferences - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <div>
+        {{ macro.pagination_widget(pagination, "main.show_conference") }}
+    </div>
+	{% include "_conferences_list.html" %}
+    <div>
+        {{ macro.pagination_widget(pagination, "main.show_conference") }}
+    </div>
+</div>
+
+{% endblock %}
